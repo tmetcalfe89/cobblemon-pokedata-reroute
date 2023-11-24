@@ -11,7 +11,7 @@ app.get("/pokedata/:branch/:name", async (req, res) => {
   const { name, branch } = req.params
 
   try {
-    const { path } = await huntForPokemon(name);
+    const { path } = await huntForPokemon(name.toLowerCase());
     res.redirect(`https://gitlab.com/cable-mc/cobblemon/-/blob/${branch}/${path}`)
   } catch (error) {
     res.sendStatus(404)
