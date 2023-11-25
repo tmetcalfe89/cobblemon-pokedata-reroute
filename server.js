@@ -18,6 +18,17 @@ app.get("/pokedata/:branch/:name", async (req, res) => {
   }
 })
 
+app.get("/pokeimg/big/:name", async (req, res) => {
+  const { name } = req.params
+
+  const response = await fetch(`https://play.pokemonshowdown.com/sprites/ani/${name}.gif`)
+  if (response.ok) {
+    res.redirect(`https://play.pokemonshowdown.com/sprites/ani/${name}.gif`)
+  } else {
+    res.redirect(`https://play.pokemonshowdown.com/sprites/dex/${name}.png`)
+  }
+})
+
 app.listen(PORT, () => {
   console.info("API server listening!")
 })
