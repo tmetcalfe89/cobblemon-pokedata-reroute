@@ -26,7 +26,18 @@ app.get("/pokeimg/big/:name", async (req, res) => {
   if (response.ok) {
     res.redirect(`https://play.pokemonshowdown.com/sprites/ani/${trueName}.gif`)
   } else {
-    res.redirect(`https://play.pokemonshowdown.com/sprites/dex/${trueName}.png`)
+    const nodash = trueName.replaceAll("-", "")
+    const nodashResponse = await fetch(`http://play.pokemonshowdown.com/sprites/ani/${nodash}.gif`)
+    if (nodashResponse.ok) {
+      res.redirect(`https://play.pokemonshowdown.com/sprites/ani/${nodash}.gif`)
+    } else {
+      const pngResponse = await fetch(`https://play.pokemonshowdown.com/sprites/dex/${trueName}.png`)
+      if (pngResponse.ok) {
+        res.redirect(`https://play.pokemonshowdown.com/sprites/dex/${trueName}.png`)
+      } else {
+        res.redirect(`https://play.pokemonshowdown.com/sprites/dex/${nodash}.png`)
+      }
+    }
   }
 })
 
