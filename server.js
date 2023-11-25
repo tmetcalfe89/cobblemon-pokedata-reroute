@@ -21,23 +21,22 @@ app.get("/pokedata/:branch/:name", async (req, res) => {
 app.get("/pokeimg/big/:name", async (req, res) => {
   const { name } = req.params
   const trueName = name.split(".")[0]
+  const trueNameNd = trueName.replaceAll("-", "")
 
-  const response = await fetch(`https://play.pokemonshowdown.com/sprites/ani/${trueName}.gif`)
-  if (response.ok) {
-    res.redirect(`https://play.pokemonshowdown.com/sprites/ani/${trueName}.gif`)
+  const aniPageUrl = "https://play.pokemonshowdown.com/sprites/ani"
+  const dexPageUrl = "https://play.pokemonshowdown.com/sprites/dex"
+
+  const aniPage = await fetch(aniPageUrl).then(e => e.text())
+  const dexPage = await fetch(dexPageUrl).then(e => e.text())
+
+  if (aniPage.includes(`href="${trueName}.gif"`)) {
+    res.redirect(`${aniPageUrl}/${trueName}.gif`)
+  } else if (aniPage.includes(`href="${trueNameNd}.gif"`)) {
+    res.redirect(`${aniPageUrl}/${trueNameNd}.gif`)
+  } else if (dexPage.includes(`href="${trueName.png}"`)) {
+    res.redirect(`${dexPageUrl}/${trueName}.png`)
   } else {
-    const nodash = trueName.replaceAll("-", "")
-    const nodashResponse = await fetch(`http://play.pokemonshowdown.com/sprites/ani/${nodash}.gif`)
-    if (nodashResponse.ok) {
-      res.redirect(`https://play.pokemonshowdown.com/sprites/ani/${nodash}.gif`)
-    } else {
-      const pngResponse = await fetch(`https://play.pokemonshowdown.com/sprites/dex/${trueName}.png`)
-      if (pngResponse.ok) {
-        res.redirect(`https://play.pokemonshowdown.com/sprites/dex/${trueName}.png`)
-      } else {
-        res.redirect(`https://play.pokemonshowdown.com/sprites/dex/${nodash}.png`)
-      }
-    }
+    res.redirect(`${dexPageUrl}/${trueNameNd}.png`)
   }
 })
 
