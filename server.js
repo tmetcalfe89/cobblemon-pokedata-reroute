@@ -20,12 +20,13 @@ app.get("/pokedata/:branch/:name", async (req, res) => {
 
 app.get("/pokeimg/big/:name", async (req, res) => {
   const { name } = req.params
+  const trueName = name.split(".")[0]
 
-  const response = await fetch(`https://play.pokemonshowdown.com/sprites/ani/${name}.gif`)
+  const response = await fetch(`https://play.pokemonshowdown.com/sprites/ani/${trueName}.gif`)
   if (response.ok) {
-    res.redirect(`https://play.pokemonshowdown.com/sprites/ani/${name}.gif`)
+    res.redirect(`https://play.pokemonshowdown.com/sprites/ani/${trueName}.gif`)
   } else {
-    res.redirect(`https://play.pokemonshowdown.com/sprites/dex/${name}.png`)
+    res.redirect(`https://play.pokemonshowdown.com/sprites/dex/${trueName}.png`)
   }
 })
 
