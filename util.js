@@ -1,6 +1,9 @@
 let cachedPokemonRefs = [];
 const setCachedPokemonRefs = (newValue) => cachedPokemonRefs = newValue;
 
+let cachedSpawnRefs = [];
+const setCachedSpawnRefs = (newValue) => cachedSpawnRefs = newValue;
+
 const huntForPokemon = async (pokemonName, branchName) => {
   const currentKnownPokemon = [...cachedPokemonRefs];
   while (
@@ -21,6 +24,26 @@ const huntForPokemon = async (pokemonName, branchName) => {
   );
 }
 
+const huntForSpawn = async (pokemonName, branchName) => {
+  const currentKnownSpawns = [...cachedSpawnRefs];
+  while (
+    !currentKnownSpawns.some(({ name }) => name.endsWith(`${pokemonName}.json`))
+  ) {
+    const data = await fetchDirectory(
+      "common/src/main/resources/data/cobblemon/spawn_pool_world",
+      branchName,
+      { page: currentKnownSpawns.length / 20 + 1, recursive: true }
+    );
+    if (!data?.length)
+      throw new Error("Pokemon not found: " + pokemonName);
+    currentKnownSpawns.push(...data);
+  }
+  setCachedSpawnRefs(currentKnownSpawns);
+  return currentKnownSpawns.find(
+    ({ name }) => name.endsWith(`${pokemonName}.json`)
+  );
+}
+
 async function fetchDirectory(
   dirname,
   branch = "main",
@@ -36,4 +59,4 @@ async function fetchDirectory(
   return data;
 }
 
-module.exports = { huntForPokemon }
+module.exports = { huntForPokemon, huntForSpawn }
