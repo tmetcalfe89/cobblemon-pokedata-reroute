@@ -4,6 +4,9 @@ const setCachedPokemonRefs = (newValue) => cachedPokemonRefs = newValue;
 let cachedSpawnRefs = [];
 const setCachedSpawnRefs = (newValue) => cachedSpawnRefs = newValue;
 
+let cachedModelRefs = [];
+const setCachedModelRefs = (newValue) => cachedModelRefs = newValue;
+
 const huntForPokemon = async (pokemonName, branchName) => {
   const currentKnownPokemon = [...cachedPokemonRefs];
   while (
@@ -44,6 +47,24 @@ const huntForSpawn = async (pokemonName, branchName) => {
   );
 }
 
+const huntForModel = async (pokemonName, branchName) => {
+  const currentKnownModels = [...cachedModelRefs];
+  while (!currentKnownModels.some(({ name }) => name.endsWith(`${pokemonName}`))) {
+    const data = await fetchDirectory(
+      "common/src/main/resources/assets/cobblemon/bedrock/pokemon/models",
+      branchName,
+      { page: currentKnownModels.length / 20 + 1, recursive: true }
+    )
+    if (!data?.length)
+      throw new Error("Pokemon not found: " + pokemonName)
+    currentKnownModels.push(...data);
+  }
+  setCachedModelRefs(currentKnownModels);
+  return currentKnownModels.find(
+    ({ name }) => name.endsWith(`${pokemonName}`)
+  )
+}
+
 async function fetchDirectory(
   dirname,
   branch = "main",
@@ -59,4 +80,4 @@ async function fetchDirectory(
   return data;
 }
 
-module.exports = { huntForPokemon, huntForSpawn }
+module.exports = { huntForPokemon, huntForSpawn, huntForModel }
