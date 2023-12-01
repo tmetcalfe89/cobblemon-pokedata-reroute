@@ -1,7 +1,7 @@
 require("dotenv").config()
 
 const express = require("express")
-const { huntForPokemon, huntForSpawn, huntForModel } = require("./util")
+const { huntForPokemon, huntForSpawn, huntForModel, huntForTexture } = require("./util")
 
 const { PORT = 3000 } = process.env
 
@@ -34,6 +34,17 @@ app.get("/pokemodel/:branch/:name", async (req, res) => {
 
   try {
     const { path } = await huntForModel(name.toLowerCase())
+    res.redirect(`https://gitlab.com/cable-mc/cobblemon/-/tree/${branch}/${path}`)
+  } catch (error) {
+    res.sendStatus(404)
+  }
+})
+
+app.get("/poketexture/:branch/:name", async (req, res) => {
+  const { name, branch } = req.params
+
+  try {
+    const { path } = await huntForTexture(name.toLowerCase())
     res.redirect(`https://gitlab.com/cable-mc/cobblemon/-/tree/${branch}/${path}`)
   } catch (error) {
     res.sendStatus(404)
