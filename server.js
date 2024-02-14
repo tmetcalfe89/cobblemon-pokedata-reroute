@@ -53,14 +53,12 @@ app.get("/poketexture/:branch/:name", async (req, res) => {
 
 app.get("/pokeimg/big/:name", async (req, res) => {
   const { name } = req.params;
-  const { shiny } = req.query;
   const [trueName, timestamp, mention] = name.split(".");
-  console.log(trueName, timestamp);
   const trueNameNd = trueName.replaceAll("-", "");
 
-  const isShiny = isShiny(timestamp, mention?.match(/<@[a-zA-Z0-9]+>/)[1]);
-  const aniPageUrl = "https://play.pokemonshowdown.com/sprites/ani" + (isShiny ? "-shiny" : "");
-  const dexPageUrl = "https://play.pokemonshowdown.com/sprites/dex" + (isShiny ? "-shiny" : "");
+  const makeItShiny = isShiny(timestamp, mention?.match(/<@[a-zA-Z0-9]+>/)[1]);
+  const aniPageUrl = "https://play.pokemonshowdown.com/sprites/ani" + (makeItShiny ? "-shiny" : "");
+  const dexPageUrl = "https://play.pokemonshowdown.com/sprites/dex" + (makeItShiny ? "-shiny" : "");
 
   const aniPage = await fetch(aniPageUrl).then(e => e.text())
   const dexPage = await fetch(dexPageUrl).then(e => e.text())
