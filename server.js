@@ -57,7 +57,7 @@ app.get("/pokeimg/big/:name", async (req, res) => {
   const trueName = name.split(".")[0]
   const trueNameNd = trueName.replaceAll("-", "")
 
-  const isShiny = (Math.floor(Math.random() * 8192) < 1) || shiny;
+  const isShiny = (Math.floor(Math.random() * 1) < 1) || shiny;
   const aniPageUrl = "https://play.pokemonshowdown.com/sprites/ani" + (isShiny ? "-shiny" : "");
   const dexPageUrl = "https://play.pokemonshowdown.com/sprites/dex" + (isShiny ? "-shiny" : "");
 
