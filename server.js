@@ -54,9 +54,9 @@ app.get("/poketexture/:branch/:name", async (req, res) => {
 app.get("/pokeimg/big/:name", async (req, res) => {
   const { name } = req.params
   const { shiny } = req.query
-  const trueName = name.split(".")[0]
+  const [trueName, mention] = name.split(".")[0]
+  console.log(trueName, mention);
   const trueNameNd = trueName.replaceAll("-", "")
-  console.log(name);
 
   const isShiny = (Math.floor(Math.random() * 1) < 1) || shiny;
   const aniPageUrl = "https://play.pokemonshowdown.com/sprites/ani" + (isShiny ? "-shiny" : "");
