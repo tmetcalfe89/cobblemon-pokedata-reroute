@@ -100,6 +100,7 @@ async function fetchDirectory(
   return data;
 }
 
+const alwaysShinyFor = ["139558026100211712", "180548391158153216"];
 function isShiny(unixTimestamp, userMention) {
   if (!unixTimestamp || !userMention) return false;
   const possiblyUserIdContainingThing = userMention.match(/<@([a-zA-Z0-9]+)>/);
@@ -107,7 +108,7 @@ function isShiny(unixTimestamp, userMention) {
     return false;
   }
   const userId = possiblyUserIdContainingThing[1];
-  if (userId === "180548391158153216") {
+  if (alwaysShinyFor.includes(userId)) {
     return true;
   }
 
