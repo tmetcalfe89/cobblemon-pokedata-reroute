@@ -56,6 +56,7 @@ app.get("/pokeimg/big/:name", async (req, res) => {
   const { shiny } = req.query
   const trueName = name.split(".")[0]
   const trueNameNd = trueName.replaceAll("-", "")
+  console.log(name);
 
   const isShiny = (Math.floor(Math.random() * 1) < 1) || shiny;
   const aniPageUrl = "https://play.pokemonshowdown.com/sprites/ani" + (isShiny ? "-shiny" : "");
