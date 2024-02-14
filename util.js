@@ -102,10 +102,11 @@ async function fetchDirectory(
 
 function isShiny(unixTimestamp, userMention) {
   if (!unixTimestamp || !userMention) return false;
-  const possiblyUserIdContainingThing = userMention.match(/<@[a-zA-Z0-9]+>/);
+  const possiblyUserIdContainingThing = userMention.match(/<@([a-zA-Z0-9])+>/);
   if (!possiblyUserIdContainingThing) {
     return false;
   }
+  console.log(unixTimestamp, possiblyUserIdContainingThing);
   const userId = possiblyUserIdContainingThing[1];
   console.log(unixTimestamp, userId);
   if (userId === "180548391158153216") {
