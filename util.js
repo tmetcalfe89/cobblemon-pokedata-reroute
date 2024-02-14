@@ -106,9 +106,7 @@ function isShiny(unixTimestamp, userMention) {
   if (!possiblyUserIdContainingThing) {
     return false;
   }
-  console.log(unixTimestamp, possiblyUserIdContainingThing);
   const userId = possiblyUserIdContainingThing[1];
-  console.log(unixTimestamp, userId);
   if (userId === "180548391158153216") {
     return true;
   }
