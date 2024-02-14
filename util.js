@@ -102,7 +102,7 @@ async function fetchDirectory(
 
 function isShiny(unixTimestamp, userMention) {
   if (!unixTimestamp || !userMention) return false;
-  const possiblyUserIdContainingThing = userMention.match(/<@([a-zA-Z0-9])+>/);
+  const possiblyUserIdContainingThing = userMention.match(/<@([a-zA-Z0-9]+)>/);
   if (!possiblyUserIdContainingThing) {
     return false;
   }
