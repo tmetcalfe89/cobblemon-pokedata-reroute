@@ -1,7 +1,7 @@
 require("dotenv").config()
 
 const express = require("express")
-const { huntForPokemon, huntForSpawn, huntForModel, huntForTexture } = require("./util")
+const { huntForPokemon, huntForSpawn, huntForModel, huntForTexture, isShiny, isShiny } = require("./util")
 
 const { PORT = 3000 } = process.env
 
@@ -54,11 +54,11 @@ app.get("/poketexture/:branch/:name", async (req, res) => {
 app.get("/pokeimg/big/:name", async (req, res) => {
   const { name } = req.params;
   const { shiny } = req.query;
-  const [trueName, mention] = name.split(".");
-  console.log(trueName, mention);
+  const [trueName, timestamp, mention] = name.split(".");
+  console.log(trueName, timestamp);
   const trueNameNd = trueName.replaceAll("-", "");
 
-  const isShiny = (Math.floor(Math.random() * 1) < 1) || shiny;
+  const isShiny = isShiny(timestamp, mention?.match(/<@[a-zA-Z0-9]+>/)[1]);
   const aniPageUrl = "https://play.pokemonshowdown.com/sprites/ani" + (isShiny ? "-shiny" : "");
   const dexPageUrl = "https://play.pokemonshowdown.com/sprites/dex" + (isShiny ? "-shiny" : "");
 

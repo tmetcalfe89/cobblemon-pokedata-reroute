@@ -98,4 +98,33 @@ async function fetchDirectory(
   return data;
 }
 
-module.exports = { huntForPokemon, huntForSpawn, huntForModel, huntForTexture }
+function isShiny(unixTimestamp, userId) {
+  if (!unixTimestamp || !userId) return false;
+
+  // Combine the Unix timestamp and the user's alphanumeric ID
+  const inputString = `${unixTimestamp}-${userId}`;
+
+  // Hash the combined string using SHA-256
+  const hash = crypto.createHash('sha256').update(inputString).digest('hex');
+
+  // Convert the first (or any) 8 characters of the hash to an integer
+  // Note: This is for demonstration; different approaches can be used for conversion
+  const hashSegment = hash.substring(0, 8);
+  const randomNumber = parseInt(hashSegment, 16);
+
+  // Perform the modulo operation to determine if it's shiny
+  return randomNumber % (isWeekend(unixTimestamp) ? 4098 : 8196) === 0;
+}
+
+function isWeekend(unixTimestamp) {
+  // Convert the Unix timestamp to milliseconds (JavaScript Date works in milliseconds)
+  const date = new Date(unixTimestamp * 1000);
+
+  // Get the day of the week
+  const dayOfWeek = date.getDay();
+
+  // Check if it's a weekend (0 for Sunday or 6 for Saturday)
+  return dayOfWeek === 0 || dayOfWeek === 6;
+}
+
+module.exports = { huntForPokemon, huntForSpawn, huntForModel, huntForTexture, isShiny }
