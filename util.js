@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 let cachedPokemonRefs = [];
 const setCachedPokemonRefs = (newValue) => cachedPokemonRefs = newValue;
 
