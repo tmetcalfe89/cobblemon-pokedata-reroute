@@ -56,7 +56,7 @@ app.get("/pokeimg/big/:name", async (req, res) => {
   const [trueName, timestamp, mention] = name.split(".");
   const trueNameNd = trueName.replaceAll("-", "");
 
-  const makeItShiny = isShiny(timestamp, mention?.match(/<@[a-zA-Z0-9]+>/)[1]);
+  const makeItShiny = isShiny(timestamp, mention);
   const aniPageUrl = "https://play.pokemonshowdown.com/sprites/ani" + (makeItShiny ? "-shiny" : "");
   const dexPageUrl = "https://play.pokemonshowdown.com/sprites/dex" + (makeItShiny ? "-shiny" : "");
 

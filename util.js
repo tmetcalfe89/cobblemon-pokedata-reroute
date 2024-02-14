@@ -98,8 +98,13 @@ async function fetchDirectory(
   return data;
 }
 
-function isShiny(unixTimestamp, userId) {
-  if (!unixTimestamp || !userId) return false;
+function isShiny(unixTimestamp, userMention) {
+  if (!unixTimestamp || !userMention) return false;
+  const possiblyUserIdContainingThing = userMention.match(/<@[a-zA-Z0-9]+>/);
+  if (!possiblyUserIdContainingThing) {
+    return false;
+  }
+  const userId = possiblyUserIdContainingThing[1];
 
   // Combine the Unix timestamp and the user's alphanumeric ID
   const inputString = `${unixTimestamp}-${userId}`;
