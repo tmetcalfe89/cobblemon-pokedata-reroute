@@ -1,7 +1,7 @@
 require("dotenv").config()
 
 const express = require("express")
-const { huntForPokemon, huntForSpawn, huntForModel, huntForTexture, isShiny, isShiny } = require("./util")
+const { huntForPokemon, huntForSpawn, huntForModel, huntForTexture, isShiny } = require("./util")
 
 const { PORT = 3000 } = process.env
 
